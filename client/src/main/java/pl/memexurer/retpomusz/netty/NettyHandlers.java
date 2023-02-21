@@ -1,15 +1,11 @@
 package pl.memexurer.retpomusz.netty;
 
-import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -43,22 +39,13 @@ public final class NettyHandlers {
     }
 
     public static boolean handleWrite(Object written) {
-        if(!stop)
+        if (!stop)
             return true;
 
         // d105ddef@63c74480[ null public=MC|SUZI_GSXR_1000_K7, null public= ! byte ] void float 0 strictfp transient public try float new 3 do throw protected transient new synchronized static short break 9 const $ ] class protected while ' final default { new short throws % = import 6 super default short 0 abstract 6 " long | new(ridx: 0, widx: 8, cap: 8/8), null public=<null>]
         if (!(written instanceof Comparable<?>)) {
             String hex = Integer.toHexString(written.getClass().getName().hashCode());
-            if(!hex.equals("d105ddef"))
-                return false;
-            try {
-                System.out.println(ReflectionToStringBuilder.toString(written).replace(
-                        written.getClass().getName(),
-                        Integer.toHexString(written.getClass().getName().hashCode())
-                ));
-            } catch (Throwable throwable) {
-                ;
-            }
+            return hex.equals("d105ddef");
         }
         return true;
     }
@@ -90,7 +77,7 @@ public final class NettyHandlers {
 
 
         if (stop) {
-            if(isBlacklisted(self) == null)
+            if (isBlacklisted(self) == null)
                 return true;
 
             if (handlerName.equals("YDWZIptvTwr5AN5zwvfF")) { // TgM9dnjnTWoLe8IPlEDg ddd
@@ -117,7 +104,7 @@ public final class NettyHandlers {
                 return true;
 
             for (Method method : read.getClass().getMethods()) {
-                if (method.getReturnType() == GameProfile.class) {
+                if (method.getReturnType().getClass().getSimpleName().equals("GameProfile")) {
                     stop = true;
                     break;
                 }
@@ -130,8 +117,7 @@ public final class NettyHandlers {
     }
 
     public static void handleClose(Object ctx) {
-        if(isBlacklisted(ctx) == null) {
-            return;
+        if (isBlacklisted(ctx) == null) {
         }
 
         //todo do naprawienia: po rozlaczeniu z serwera nie mozna sie polaczyc na nowo
@@ -139,8 +125,8 @@ public final class NettyHandlers {
         //odkomentowanie ponizszego kodu nic nie da bo ten check isBlacklitsed nie dziala!
         //pomocy kurwa!!!!!!!!!!
 
-     //   stop = false;
-     //   pipeClient.setReadHandler(null);
+        //   stop = false;
+        //   pipeClient.setReadHandler(null);
     }
 
     private static Method getObjectMethod(Class<?> contextClass, String name) {

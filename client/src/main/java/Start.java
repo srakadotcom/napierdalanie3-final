@@ -1,5 +1,3 @@
-import com.google.common.base.Strings;
-
 import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
@@ -26,7 +24,7 @@ public class Start {
     private static void hackNatives() {
         String paths = System.getProperty("java.library.path");
         String nativesDir = "C:/Users/azeroy/.gradle/caches/minecraft/net/minecraft/natives/1.8.9";
-        if (Strings.isNullOrEmpty(paths)) {
+        if (paths == null || paths.equals("")) {
             paths = nativesDir;
         } else {
             paths = paths + File.pathSeparator + nativesDir;

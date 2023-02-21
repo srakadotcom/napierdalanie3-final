@@ -1,4 +1,3 @@
-import com.mojang.authlib.GameProfile;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -11,12 +10,9 @@ import pl.memexurer.retpomusz.netty.NettyHandlers;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.security.ProtectionDomain;
-import java.util.Base64;
-import java.util.UUID;
 
 public class Transform {
 
@@ -76,7 +72,7 @@ public class Transform {
                         } else if (cstStrnig.contains("promise.channel does not match: %s (expected: %s)")) {
                             System.out.println("Found abstract channel handler context");
                             isAbstractChannel = true;
-                        } else if(cstStrnig.equals( "The total length of the specified buffers is too big.")) {
+                        } else if (cstStrnig.equals("The total length of the specified buffers is too big.")) {
                             System.out.println("Found unpooled class");
                             isUnpooled = true;
                         }
@@ -84,21 +80,21 @@ public class Transform {
                 }
             }
 
-            for(MethodNode methodNode: node.methods) {
+            for (MethodNode methodNode : node.methods) {
                 boolean found = false, found2 = false;
-                for(AbstractInsnNode insnNode: methodNode.instructions.toArray()) {
-                    if(insnNode instanceof MethodInsnNode) {
+                for (AbstractInsnNode insnNode : methodNode.instructions.toArray()) {
+                    if (insnNode instanceof MethodInsnNode) {
                         MethodInsnNode methodInsnNode = (MethodInsnNode) insnNode;
-                        if(methodInsnNode.owner.equals("java/util/UUID") && methodInsnNode.name.equals("fromString")) {
+                        if (methodInsnNode.owner.equals("java/util/UUID") && methodInsnNode.name.equals("fromString")) {
                             found = true;
                         }
-                        if(methodInsnNode.desc.equals("(Ljava/util/UUID;Ljava/lang/String;)V") && methodInsnNode.name.equals("<init>")) {
+                        if (methodInsnNode.desc.equals("(Ljava/util/UUID;Ljava/lang/String;)V") && methodInsnNode.name.equals("<init>")) {
                             found2 = true;
                         }
                     }
                 }
 
-                if(found && found2 && node.methods.size() == 9) {
+                if (found && found2 && node.methods.size() == 9) {
                     NettyHandlers.s02PacketLoginSuccess = coolerName;
                 }
             }
@@ -130,7 +126,7 @@ public class Transform {
                         methodNode.instructions.insert(insnList);
 
                         modified = true;
-                    } else if(methodNode.name.equals("invokeClose")) {
+                    } else if (methodNode.name.equals("invokeClose")) {
                         System.out.println("Found channel close");
                         InsnList insnList = new InsnList();
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 0));
@@ -162,7 +158,7 @@ public class Transform {
                 ClassWriter writer = new ClassWriter(reader, ClassWriter.COMPUTE_MAXS);
                 node.accept(writer);
                 byte[] bytes = writer.toByteArray();
-                if(isUnpooled)
+                if (isUnpooled)
                     Files.write(new File(coolerName.hashCode() + ".class").toPath(), bytes);
                 return bytes;
             }
@@ -177,8 +173,8 @@ public class Transform {
     }
 
     private static LabelNode findFirstLabel(InsnList list) {
-        for(AbstractInsnNode node: list.toArray())
-            if(node instanceof LabelNode)
+        for (AbstractInsnNode node : list.toArray())
+            if (node instanceof LabelNode)
                 return (LabelNode) node;
         return null;
     }
