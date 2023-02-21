@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4+'
+    }
+}
+
+
+plugins {
+    id 'java'
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'pl.retpomusz'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'pl.memexurer.retproxy.Bootstrap'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation 'io.netty:netty-all:4+'
+}
