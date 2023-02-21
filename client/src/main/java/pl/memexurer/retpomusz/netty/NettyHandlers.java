@@ -104,7 +104,7 @@ public final class NettyHandlers {
                 return true;
 
             for (Method method : read.getClass().getMethods()) {
-                if (method.getReturnType().getClass().getSimpleName().equals("GameProfile")) {
+                if (method.getReturnType().getName().contains("GameProfile")) {
                     stop = true;
                     break;
                 }
