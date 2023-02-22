@@ -106,8 +106,9 @@ public class Transform {
                         InsnList insnList = new InsnList();
 
                         insnList.add(new LabelNode());
+                        insnList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "pl/memexurer/retpomusz/netty/NettyHandlers", "handleWrite", "(Ljava/lang/Object;)Z", false));
+                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "pl/memexurer/retpomusz/netty/NettyHandlers", "handleWrite", "(Ljava/lang/Object;Ljava/lang/Object;)Z", false));
                         insnList.add(new JumpInsnNode(Opcodes.IFNE, findFirstLabel(methodNode.instructions)));
                         insnList.add(new LabelNode());
                         insnList.add(new InsnNode(Opcodes.RETURN));

@@ -38,16 +38,20 @@ public final class NettyHandlers {
             printInheritance(clazz.getSuperclass(), inheritance + 1);
     }
 
-    public static boolean handleWrite(Object written) {
-        if (!stop)
-            return true;
+    public static boolean handleWrite(Object ctx, Object written) {
+        if (isBlacklisted(ctx) == null) {
+            return true; // allow blacklisted writes
+        }
 
-        // d105ddef@63c74480[ null public=MC|SUZI_GSXR_1000_K7, null public= ! byte ] void float 0 strictfp transient public try float new 3 do throw protected transient new synchronized static short break 9 const $ ] class protected while ' final default { new short throws % = import 6 super default short 0 abstract 6 " long | new(ridx: 0, widx: 8, cap: 8/8), null public=<null>]
+        if (!stop)
+            return true; // allow writes when not connected to any server
+
         if (!(written instanceof Comparable<?>)) {
             String hex = Integer.toHexString(written.getClass().getName().hashCode());
-            return hex.equals("d105ddef");
+            return hex.equals("d105ddef"); // only allow sending plugin message packet
         }
-        return true;
+
+        return true; // allow all bytebufs
     }
 
     private static String getContextName(Object context) {
@@ -119,9 +123,6 @@ public final class NettyHandlers {
     }
 
     public static void handleClose(Object ctx) {
-        if (isBlacklisted(ctx) == null) {
-        }
-
         //todo do naprawienia: po rozlaczeniu z serwera nie mozna sie polaczyc na nowo
         //bo stop jest wtedy na true i to blokuje wszystkie nowe pakiety
         //odkomentowanie ponizszego kodu nic nie da bo ten check isBlacklitsed nie dziala!
