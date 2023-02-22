@@ -80,6 +80,8 @@ public final class NettyHandlers {
             if (isBlacklisted(self) == null)
                 return true;
 
+            addChannel(self, self);
+
             if (handlerName.equals("YDWZIptvTwr5AN5zwvfF")) { // TgM9dnjnTWoLe8IPlEDg ddd
                 byte[] bytes = new byte[(int) getObject("readableBytes", read)];
                 try {
@@ -166,9 +168,9 @@ public final class NettyHandlers {
         if (channel == null)
             return;
 
-        Method writeAndFlush = getObjectMethod(channel.getClass(), "writeAndFlush");
-        Class<?> byteBufClass = writeAndFlush.getParameterTypes()[0];
         pipeClient.setReadHandler(buf -> {
+            Method writeAndFlush = getObjectMethod(channel.getClass(), "writeAndFlush");
+
             Object allocator = getObject("alloc", channel);
             Object byteBuf;
             try {
