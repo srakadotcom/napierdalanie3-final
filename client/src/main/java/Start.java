@@ -2,7 +2,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
-/////////////
+//////////////
 public class Start {
     public static void main(String[] args) throws Throwable {
         hackNatives();
