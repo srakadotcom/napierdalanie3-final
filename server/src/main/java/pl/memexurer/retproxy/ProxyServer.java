@@ -35,7 +35,7 @@ public class ProxyServer extends NettyServer {
             int packetId = PacketSplitter.readVarIntFromBuffer(msg);
 
             System.out.println("Read from proxy: " + packetId);
-            if(packetId == 62) {
+            if(packetId == 62 || packetId == 0x38) {
                 return;
             }
             msg.resetReaderIndex();
