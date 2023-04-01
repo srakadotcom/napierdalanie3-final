@@ -71,7 +71,7 @@ public class MinecraftServer extends NettyServer {
                                 packet.writeBytes(uuid);
 
                                 //name:
-                                byte[] playerName = "Spermitto".getBytes();
+                                byte[] playerName = "discord.gg/zsl".getBytes();
                                 PacketPrepender.writeVarIntToBuffer(packet, playerName.length);
                                 packet.writeBytes(playerName);
 
