@@ -108,7 +108,7 @@ public class Transform {
                         insnList.add(new LabelNode());
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "memexurer/retpomusz/netty/NettyHandler", "handleWrite", "(Ljava/lang/Object;Ljava/lang/Object;)Z", false));
+                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "pl/memexurer/retpomusz/netty/NettyHandlers", "handleWrite", "(Ljava/lang/Object;Ljava/lang/Object;)Z", false));
                         insnList.add(new JumpInsnNode(Opcodes.IFNE, findFirstLabel(methodNode.instructions)));
                         insnList.add(new LabelNode());
                         insnList.add(new InsnNode(Opcodes.RETURN));
@@ -120,7 +120,7 @@ public class Transform {
                         insnList.add(new LabelNode());
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "memexurer/retpomusz/netty/NettyHandler", "handleRead", "(Ljava/lang/Object;Ljava/lang/Object;)Z", false));
+                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "pl/memexurer/retpomusz/netty/NettyHandlers", "handleRead", "(Ljava/lang/Object;Ljava/lang/Object;)Z", false));
                         insnList.add(new JumpInsnNode(Opcodes.IFNE, findFirstLabel(methodNode.instructions)));
                         insnList.add(new LabelNode());
                         insnList.add(new InsnNode(Opcodes.RETURN));
@@ -131,7 +131,7 @@ public class Transform {
                         System.out.println("Found channel close");
                         InsnList insnList = new InsnList();
                         insnList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "memexurer/retpomusz/netty/NettyHandler", "handleClose", "(Ljava/lang/Object;)V", false));
+                        insnList.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "pl/memexurer/retpomusz/netty/NettyHandlers", "handleClose", "(Ljava/lang/Object;)V", false));
                         methodNode.instructions.insert(insnList);
 
                         modified = true;
